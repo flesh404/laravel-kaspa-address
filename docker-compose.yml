@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  php:
+    build:
+      context: ./docker/develop/php
+      dockerfile: Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    volumes:
+      - type: bind
+        source: ./
+        target: ${WORKING_DIR}
+      - type: bind
+        source: ./docker/develop/php/conf.d/xdebug.ini
+        target: /usr/local/etc/php/conf.d/xdebug.ini
+      - type: bind
+        source: ./docker/develop/php/conf.d/memory.ini
+        target: /usr/local/etc/php/conf.d/memory.ini
+    working_dir: ${WORKING_DIR}
+
+networks:
+  default:
+    ipam:
+      config:
+        -   subnet: 11.0.0.0/24
