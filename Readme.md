@@ -2,6 +2,9 @@
 
 Laravel package for validating and analyzing Kaspa addresses.
 
+**Disclaimer:**  
+This project is not officially affiliated with, endorsed by, or connected to Kaspa or the Kaspa Foundation.
+
 ## Features
 
 - Validate Kaspa addresses (mainnet / testnet / devnet / simnet)
