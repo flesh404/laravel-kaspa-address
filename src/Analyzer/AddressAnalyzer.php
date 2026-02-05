@@ -42,7 +42,7 @@ final class AddressAnalyzer
         } catch (\Throwable $e) {
             return [
                 'valid'  => false,
-                'errors' => [$e->getMessage()],
+                'errors' => [$e->getPrevious()->getMessage()],
             ];
         }
     }
