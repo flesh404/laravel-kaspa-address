@@ -20,7 +20,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Flesh404\\Kaspa\\Laravel\\Address\\KaspaAddressServiceProvider"
+        "Flesh404\\Kaspa\\Laravel\\Address\\Providers\\KaspaAddressServiceProvider"
       ]
     }
   },
