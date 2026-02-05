@@ -107,3 +107,9 @@ Includes:
 - Analyzer tests 
 - Artisan command tests
 
+## References
+- Kaspa Go implementation (kaspad)  
+  https://github.com/kaspanet/kaspad
+- Rusty-Kaspa (Rust reference implementation)  
+  https://github.com/kaspanet/rusty-kaspa
+
