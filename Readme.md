@@ -5,33 +5,102 @@ Laravel package for validating and analyzing Kaspa addresses.
 ## Features
 
 - Validate Kaspa addresses (mainnet / testnet / devnet / simnet)
-- Analyze address prefix & network
-- Based on official Kaspa Go / Rust implementations
-- Zero dependencies, framework-agnostic core
+- Extract prefix and network information
+- Kaspa-specific Bech32 checksum verification
+- Artisan command for CLI validation
+- Based on the **official Kaspa Go / Rust reference implementations**
+- Zero dependencies
 
 ## Installation
 
 ```bash
 composer require flesh404/laravel-kaspa-address
 ```
-
+Laravel will auto-discover the service provider.
 ## Usage
 
-### Validate address
+### Validate an address
 ```php
-KaspaAddress::isValid($address);
+use Flesh404\Kaspa\Laravel\Address\Address\KaspaAddress;
+
+KaspaAddress::isValid('kaspa:...');
+```
+Returns `true` or `false`.
+
+### Parse and inspect an address
+```php
+use Flesh404\Kaspa\Laravel\Address\Address\KaspaAddress;
+
+$address = KaspaAddress::parse('kaspa:qp...');
+
+$address->prefix()->value;   // "kaspa"
+$address->network()->value;  // "mainnet"
+```
+Throws `InvalidKaspaAddress` if invalid.
+
+### Analyzer (recommended for APIs & checker websites)
+The AddressAnalyzer never throws and always returns a structured result.
+```php
+$result = AddressAnalyzer::analyze('kaspa:qp...');
+```
+**Result format**
+```php
+[
+    'valid'   => true,
+    'prefix'  => 'kaspa',
+    'network' => 'mainnet',
+    'errors'  => [],
+]
+```
+For invalid addresses:
+```php
+[
+    'valid'  => false,
+    'errors' => ['Invalid Kaspa address.'],
+]
 ```
 
-### Parse address
-```php
-$address = KaspaAddress::parse($address);
+### Artisan Command
+The package ships with a CLI command for validating Kaspa addresses.
 
-$address->prefix();   // kaspa
-$address->network();  // KaspaNetwork::Mainnet
+**Usage:**
+```bash
+php artisan kaspa:address kaspa:qp...
 ```
 
-### Analyze (for APIs / checker sites)
-```php
-AddressAnalyzer::analyze($input);
+**Example Output:**
+```bash
+✔ Address is valid
+
+Prefix:   kaspa
+Network:  mainnet
 ```
+For invalid addresses:
+```bash
+✘ Address is invalid
+ - Invalid Kaspa address.
+```
+
+Exit codes:
+- 0 → valid
+- 1 → invalid
+
+## Supported Networks & Prefixes
+| Network | Prefix      |
+| ------- | ----------- |
+| Mainnet | `kaspa`     |
+| Testnet | `kaspatest` |
+| Devnet  | `kaspadev`  |
+| Simnet  | `kaspasim`  |
+
+## Testing
+```bash
+./vendor/bin/phpunit
+```
+
+Includes:
+- Bech32 decoding tests 
+- Address parsing tests 
+- Analyzer tests 
+- Artisan command tests
 
