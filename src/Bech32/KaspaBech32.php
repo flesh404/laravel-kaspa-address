@@ -2,7 +2,11 @@
 
 namespace Flesh404\Kaspa\Laravel\Address\Bech32;
 
-use Flesh404\Kaspa\Laravel\Address\Exceptions\InvalidBech32String;
+use Flesh404\Kaspa\Laravel\Address\Enums\KaspaPrefix;
+use Flesh404\Kaspa\Laravel\Address\Exceptions\{
+    InvalidBech32String,
+    InvalidKaspaAddress
+};
 
 /**
  * Kaspa-specific Bech32 decoder implementation.
@@ -47,36 +51,23 @@ final class KaspaBech32
      * Decodes a Kaspa Bech32 address into prefix and payload data.
      *
      * @param string $encoded
-     * @return array{prefix: string, data: int[]}
+     * @return array{prefix: KaspaPrefix, data: int[]}
      * @throws InvalidBech32String
      */
     public static function decode(string $encoded): array
     {
         $encoded = trim($encoded);
 
-        if (strlen($encoded) < self::CHECKSUM_LENGTH + 2) {
-            throw new InvalidBech32String('Invalid bech32 string length.');
-        }
-
-        if ($encoded !== strtolower($encoded) && $encoded !== strtoupper($encoded)) {
-            throw new InvalidBech32String('Mixed case bech32 string.');
-        }
+        self::assertValidLength($encoded);
+        self::assertValidCasing($encoded);
 
         $encoded = strtolower($encoded);
 
-        $pos = strrpos($encoded, ':');
-        if ($pos < 1 || $pos + self::CHECKSUM_LENGTH + 1 > strlen($encoded)) {
-            throw new InvalidBech32String('Invalid index of ":"');
-        }
-
-        $prefix = substr($encoded, 0, $pos);
-        $dataPart = substr($encoded, $pos + 1);
+        [$prefix, $dataPart] = self::splitAddress($encoded);
 
         $decoded = self::decodeFromBase32($dataPart);
 
-        if (!self::verifyChecksum($prefix, $decoded)) {
-            throw new InvalidBech32String('Invalid checksum.');
-        }
+        self::assertValidChecksum($prefix, $decoded);
 
         // strip checksum
         return [
@@ -88,6 +79,83 @@ final class KaspaBech32
     // ---------------------------------------------------------------------
     // Internals
     // ---------------------------------------------------------------------
+
+    /**
+     * Ensures the encoded string is long enough to contain a prefix, separator and checksum.
+     *
+     * @param string $encoded
+     * @return void
+     */
+    private static function assertValidLength(string $encoded): void
+    {
+        if (strlen($encoded) < self::CHECKSUM_LENGTH + 2) {
+            throw new InvalidBech32String('Invalid bech32 string length.');
+        }
+    }
+
+    /**
+     * Ensures the Bech32 string does not use mixed casing.
+     * Bech32 strings must be either all lowercase or all uppercase.
+     *
+     * @param string $encoded
+     * @return void
+     */
+    private static function assertValidCasing(string $encoded): void
+    {
+        if ($encoded !== strtolower($encoded) && $encoded !== strtoupper($encoded)) {
+            throw new InvalidBech32String('Mixed case bech32 string.');
+        }
+    }
+
+    /**
+     * Splits a Bech32-encoded Kaspa address into prefix and data part.
+     * Also validates that the prefix is a supported Kaspa prefix.
+     *
+     * @param string $encoded
+     * @return array{0: KaspaPrefix, 1: string}
+     */
+    private static function splitAddress(string $encoded): array
+    {
+        $pos = strrpos($encoded, ':');
+
+        if ($pos === false) {
+            throw new InvalidBech32String('Missing ":" separator.');
+        }
+
+        if ($pos < 1 || $pos + self::CHECKSUM_LENGTH + 1 > strlen($encoded)) {
+            throw new InvalidBech32String('Invalid index of ":"');
+        }
+
+        $prefixString = substr($encoded, 0, $pos);
+
+        try {
+            $prefix = KaspaPrefix::parse($prefixString);
+        } catch (InvalidKaspaAddress $e) {
+            throw new InvalidBech32String(
+                $e->getMessage(),
+                previous: $e
+            );
+        }
+
+        return [
+            $prefix,
+            substr($encoded, $pos + 1),
+        ];
+    }
+
+    /**
+     * Validates the Bech32 checksum for the given prefix and payload.
+     *
+     * @param KaspaPrefix $prefix
+     * @param array $decoded
+     * @return void
+     */
+    private static function assertValidChecksum(KaspaPrefix $prefix, array $decoded): void
+    {
+        if (!self::verifyChecksum($prefix->value, $decoded)) {
+            throw new InvalidBech32String('Invalid checksum.');
+        }
+    }
 
     /**
      * Decodes a Bech32 base32 string into its integer values.

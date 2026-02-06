@@ -71,7 +71,7 @@ final class KaspaAddress
             throw new InvalidKaspaAddress('Invalid Kaspa address.', previous: $e);
         }
 
-        return new self($input, KaspaPrefix::parse($decoded['prefix']));
+        return new self($input, $decoded['prefix']);
     }
 
     /**
