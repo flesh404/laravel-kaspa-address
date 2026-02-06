@@ -40,10 +40,33 @@ final class AddressAnalyzer
                 'errors'  => [],
             ];
         } catch (\Throwable $e) {
+            $errors = self::collectExceptionMessages($e);
+
             return [
                 'valid'  => false,
-                'errors' => [$e->getPrevious()->getMessage()],
+                'errors' => [
+                    'technical' => $errors,
+                    'user' => end($errors),
+                ],
             ];
         }
+    }
+
+    /**
+     * Collects all exception messages from an exception chain.
+     *
+     * @param \Throwable $e
+     * @return array
+     */
+    private static function collectExceptionMessages(\Throwable $e): array
+    {
+        $messages = [];
+
+        while ($e) {
+            $messages[] = $e->getMessage();
+            $e = $e->getPrevious();
+        }
+
+        return $messages;
     }
 }
