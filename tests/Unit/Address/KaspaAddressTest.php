@@ -1,11 +1,12 @@
 <?php
 
-use Flesh404\Kaspa\Laravel\Address\Address\KaspaAddress;
-use Flesh404\Kaspa\Laravel\Address\Exceptions\Address\UnknownKaspaAddressPrefix;
+use Flesh404\Kaspa\Laravel\Address\KaspaAddress;
 use Flesh404\Kaspa\Laravel\Address\Enums\{
     KaspaNetwork,
     KaspaPrefix
 };
+
+use Flesh404\Kaspa\Laravel\Address\Exceptions\Address\UnknownKaspaAddressPrefix;
 use Orchestra\Testbench\TestCase;
 
 /**

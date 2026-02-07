@@ -3,7 +3,7 @@
 namespace Flesh404\Kaspa\Laravel\Address\Analyzer;
 
 use Flesh404\Kaspa\Laravel\Address\{
-    Address\KaspaAddress,
+    KaspaAddress,
     Exceptions\ErrorCodeException
 };
 

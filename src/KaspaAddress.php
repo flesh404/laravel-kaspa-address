@@ -1,6 +1,6 @@
 <?php
 
-namespace Flesh404\Kaspa\Laravel\Address\Address;
+namespace Flesh404\Kaspa\Laravel\Address;
 
 use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32;
 use Flesh404\Kaspa\Laravel\Address\Exceptions\{

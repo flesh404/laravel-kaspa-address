@@ -24,7 +24,7 @@ Laravel will auto-discover the service provider.
 
 ### Validate an address
 ```php
-use Flesh404\Kaspa\Laravel\Address\Address\KaspaAddress;
+use Flesh404\Kaspa\Laravel\Address\KaspaAddress;
 
 KaspaAddress::isValid('kaspa:...');
 ```
@@ -32,7 +32,7 @@ Returns `true` or `false`.
 
 ### Parse and inspect an address
 ```php
-use Flesh404\Kaspa\Laravel\Address\Address\KaspaAddress;
+use Flesh404\Kaspa\Laravel\Address\KaspaAddress;
 
 $address = KaspaAddress::parse('kaspa:qp...');
 
@@ -44,6 +44,8 @@ Throws `InvalidKaspaAddress` if invalid.
 ### Analyzer (recommended for APIs & checker websites)
 The AddressAnalyzer never throws and always returns a structured result.
 ```php
+use Flesh404\Kaspa\Laravel\Address\Analyzer\AddressAnalyzer
+
 $result = AddressAnalyzer::analyze('kaspa:qp...');
 ```
 **Result format**
