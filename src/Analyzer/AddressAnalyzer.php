@@ -2,7 +2,10 @@
 
 namespace Flesh404\Kaspa\Laravel\Address\Analyzer;
 
-use Flesh404\Kaspa\Laravel\Address\Address\KaspaAddress;
+use Flesh404\Kaspa\Laravel\Address\{
+    Address\KaspaAddress,
+    Exceptions\ErrorCodeException
+};
 
 /**
  * Lightweight helper for analyzing Kaspa address strings.
@@ -39,34 +42,35 @@ final class AddressAnalyzer
                 'network' => $address->network()->value,
                 'errors'  => [],
             ];
-        } catch (\Throwable $e) {
-            $errors = self::collectExceptionMessages($e);
-
+        } catch (ErrorCodeException $e) {
             return [
                 'valid'  => false,
-                'errors' => [
-                    'technical' => $errors,
-                    'user' => end($errors),
-                ],
+                'errors' => self::collectErrors($e),
             ];
         }
     }
 
     /**
-     * Collects all exception messages from an exception chain.
+     * Collects all error-code exceptions from an exception chain.
      *
      * @param \Throwable $e
-     * @return array
+     * @return array<int, array{code: string, message: string}>
      */
-    private static function collectExceptionMessages(\Throwable $e): array
+    private static function collectErrors(\Throwable $e): array
     {
-        $messages = [];
+        $errors = [];
 
         while ($e) {
-            $messages[] = $e->getMessage();
+            if ($e instanceof ErrorCodeException) {
+                $errors[] = [
+                    'code'    => $e->getErrorCode(),
+                    'message' => $e->getMessage(),
+                ];
+            }
+
             $e = $e->getPrevious();
         }
 
-        return $messages;
+        return $errors;
     }
 }

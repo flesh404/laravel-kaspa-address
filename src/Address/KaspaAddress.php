@@ -2,9 +2,10 @@
 
 namespace Flesh404\Kaspa\Laravel\Address\Address;
 
-use Flesh404\Kaspa\Laravel\Address\{
-    Bech32\KaspaBech32,
-    Exceptions\InvalidKaspaAddress
+use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32;
+use Flesh404\Kaspa\Laravel\Address\Exceptions\{
+    Address\InvalidKaspaAddress,
+    Bech32\Bech32ErrorGroupException
 };
 use Flesh404\Kaspa\Laravel\Address\Enums\{
     KaspaPrefix,
@@ -60,15 +61,13 @@ final class KaspaAddress
      *
      * @param string $input Bech32-encoded Kaspa address
      * @return self
-     *
-     * @throws InvalidKaspaAddress If the address is invalid
      */
     public static function parse(string $input): self
     {
         try {
             $decoded = KaspaBech32::decode($input);
-        } catch (\Throwable $e) {
-            throw new InvalidKaspaAddress('Invalid Kaspa address.', previous: $e);
+        } catch (Bech32ErrorGroupException $e) {
+            throw new InvalidKaspaAddress(previous: $e);
         }
 
         return new self($input, $decoded['prefix']);

@@ -2,7 +2,7 @@
 
 namespace Flesh404\Kaspa\Laravel\Address\Enums;
 
-use Flesh404\Kaspa\Laravel\Address\Exceptions\InvalidKaspaAddress;
+use Flesh404\Kaspa\Laravel\Address\Exceptions\Address\UnknownKaspaAddressPrefix;
 
 /**
  * Kaspa address prefix enum.
@@ -22,12 +22,12 @@ enum KaspaPrefix: string
     /**
      * Parses a Kaspa address prefix value.
      *
-     * @throws InvalidKaspaAddress
+     * @throws UnknownKaspaAddressPrefix
      */
     public static function parse(string $value): self
     {
         return self::tryFrom($value)
-            ?? throw new InvalidKaspaAddress(
+            ?? throw new UnknownKaspaAddressPrefix(
                 "Unknown Kaspa address prefix: {$value}"
             );
     }

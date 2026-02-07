@@ -1,9 +1,11 @@
 <?php
 
 use Flesh404\Kaspa\Laravel\Address\Address\KaspaAddress;
-use Flesh404\Kaspa\Laravel\Address\Enums\KaspaNetwork;
-use Flesh404\Kaspa\Laravel\Address\Enums\KaspaPrefix;
-use Flesh404\Kaspa\Laravel\Address\Exceptions\InvalidKaspaAddress;
+use Flesh404\Kaspa\Laravel\Address\Exceptions\Address\UnknownKaspaAddressPrefix;
+use Flesh404\Kaspa\Laravel\Address\Enums\{
+    KaspaNetwork,
+    KaspaPrefix
+};
 use Orchestra\Testbench\TestCase;
 
 /**
@@ -21,9 +23,16 @@ final class KaspaAddressTest extends TestCase
         $this->assertSame(KaspaNetwork::Mainnet, $address->network());
     }
 
+    public function test_unknown_address_prefix_throws(): void
+    {
+        $this->expectException(UnknownKaspaAddressPrefix::class);
+
+        KaspaAddress::parse('unknown:invalidaddress');
+    }
+
     public function test_invalid_address_throws(): void
     {
-        $this->expectException(InvalidKaspaAddress::class);
+        $this->expectException(\Flesh404\Kaspa\Laravel\Address\Exceptions\Address\InvalidKaspaAddress::class);
 
         KaspaAddress::parse('kaspa:invalidaddress');
     }

@@ -59,7 +59,16 @@ For invalid addresses:
 ```php
 [
     'valid'  => false,
-    'errors' => ['Invalid Kaspa address.'],
+    'errors' => [
+        [
+            'code' => 'address.invalid',
+            'message' => 'Invalid Kaspa address.'
+        ],
+        [
+            'code' => 'bech32.checksum_invalid',
+            'message' => 'Invalid Bech32 checksum.'
+        ]
+    ],
 ]
 ```
 
@@ -81,7 +90,8 @@ Network:  mainnet
 For invalid addresses:
 ```bash
 ✘ Address is invalid
- - Invalid Kaspa address.
+ - Invalid Kaspa address. (address.invalid)
+ - Invalid Bech32 checksum. (bech32.checksum_invalid)
 ```
 
 Exit codes:

@@ -25,6 +25,6 @@ final class AddressAnalyzerTest extends TestCase
         $result = AddressAnalyzer::analyze('foo');
 
         $this->assertFalse($result['valid']);
-        $this->assertNotEmpty($result['errors']['technical']);
+        $this->assertNotEmpty($result['errors']);
     }
 }

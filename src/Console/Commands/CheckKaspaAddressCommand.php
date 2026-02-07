@@ -42,8 +42,8 @@ final class CheckKaspaAddressCommand extends Command
         if (! $result['valid']) {
             $this->error('✘ Address is invalid');
 
-            foreach ($result['errors']['technical'] as $error) {
-                $this->line(" - {$error}");
+            foreach ($result['errors'] as $error) {
+                $this->line(" - {$error['message']} ({$error['code']})");
             }
 
             return self::FAILURE;

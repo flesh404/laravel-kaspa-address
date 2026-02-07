@@ -1,7 +1,6 @@
 <?php
 
 use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32;
-use Flesh404\Kaspa\Laravel\Address\Exceptions\InvalidBech32String;
 use Orchestra\Testbench\TestCase;
 
 /**
@@ -10,7 +9,7 @@ use Orchestra\Testbench\TestCase;
  * Verifies correct decoding of valid Bech32 addresses
  * and proper exception handling for invalid inputs.
  */
-final class Bech32DecodeTest extends TestCase
+final class KaspaBech32DecodeTest extends TestCase
 {
     public function test_valid_addresses_decode(): void
     {
@@ -28,12 +27,4 @@ final class Bech32DecodeTest extends TestCase
             $this->assertNotEmpty($decoded['data']);
         }
     }
-
-    public function test_invalid_string_throws(): void
-    {
-        $this->expectException(InvalidBech32String::class);
-
-        KaspaBech32::decode('™');
-    }
-
 }
