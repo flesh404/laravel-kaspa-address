@@ -2,7 +2,7 @@
 
 namespace Flesh404\Kaspa\Laravel\Address;
 
-use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32;
+use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32Decoder;
 use Flesh404\Kaspa\Laravel\Address\Exceptions\{
     Address\InvalidKaspaAddress,
     Bech32\Bech32ErrorGroupException
@@ -65,7 +65,7 @@ final class KaspaAddress
     public static function parse(string $input): self
     {
         try {
-            $decoded = KaspaBech32::decode($input);
+            $decoded = KaspaBech32Decoder::decode($input);
         } catch (Bech32ErrorGroupException $e) {
             throw new InvalidKaspaAddress(previous: $e);
         }

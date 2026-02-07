@@ -42,11 +42,11 @@ $address->network()->value;  // "mainnet"
 Throws `InvalidKaspaAddress` if invalid.
 
 ### Analyzer (recommended for APIs & checker websites)
-The AddressAnalyzer never throws and always returns a structured result.
+The KaspaAddressAnalyzer never throws and always returns a structured result.
 ```php
-use Flesh404\Kaspa\Laravel\Address\Analyzer\AddressAnalyzer
+use Flesh404\Kaspa\Laravel\Address\Support\KaspaAddressAnalyzer
 
-$result = AddressAnalyzer::analyze('kaspa:qp...');
+$result = KaspaAddressAnalyzer::analyze('kaspa:qp...');
 ```
 **Result format**
 ```php
@@ -73,6 +73,32 @@ For invalid addresses:
     ],
 ]
 ```
+
+### Address Generator
+
+The KaspaAddressGenerator provides a convenient way to generate
+valid random Kaspa addresses for testing and development purposes.
+
+```php
+use Flesh404\Kaspa\Laravel\Address\Support\KaspaAddressGenerator;
+use Flesh404\Kaspa\Laravel\Address\Enums\KaspaPrefix;
+
+$address = KaspaAddressGenerator::generate(KaspaPrefix::Mainnet);
+
+(string) $address;          // "kaspa:qp..."
+$address->prefix()->value;  // "kaspa"
+$address->network()->value; // "mainnet"
+```
+You can also generate addresses for other networks:
+```php
+KaspaAddressGenerator::generate(KaspaPrefix::Testnet);
+KaspaAddressGenerator::generate(KaspaPrefix::Devnet);
+KaspaAddressGenerator::generate(KaspaPrefix::Simnet);
+```
+
+**Note:**
+The generator is intended for testing, fixtures, and tooling.
+It does not derive keys or represent real wallet ownership.
 
 ### Artisan Command
 The package ships with a CLI command for validating Kaspa addresses.

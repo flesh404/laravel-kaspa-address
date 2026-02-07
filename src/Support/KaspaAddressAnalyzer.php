@@ -1,6 +1,6 @@
 <?php
 
-namespace Flesh404\Kaspa\Laravel\Address\Analyzer;
+namespace Flesh404\Kaspa\Laravel\Address\Support;
 
 use Flesh404\Kaspa\Laravel\Address\{
     KaspaAddress,
@@ -13,9 +13,9 @@ use Flesh404\Kaspa\Laravel\Address\{
  * Provides validation and extracts prefix and network information
  * without throwing exceptions to the caller.
  *
- * @package Flesh404\Kaspa\Laravel\Address\Analyzer
+ * @package Flesh404\Kaspa\Laravel\Address\Support
  */
-final class AddressAnalyzer
+final class KaspaAddressAnalyzer
 {
     /**
      * Analyzes a Kaspa address string.

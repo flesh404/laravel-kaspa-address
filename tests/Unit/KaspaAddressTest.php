@@ -5,7 +5,6 @@ use Flesh404\Kaspa\Laravel\Address\Enums\{
     KaspaNetwork,
     KaspaPrefix
 };
-
 use Flesh404\Kaspa\Laravel\Address\Exceptions\Address\UnknownKaspaAddressPrefix;
 use Orchestra\Testbench\TestCase;
 

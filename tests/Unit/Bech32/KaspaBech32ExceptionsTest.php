@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Bech32;
 
-use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32;
+use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32Decoder;
 use Flesh404\Kaspa\Laravel\Address\Exceptions\Bech32\{
     InvalidBech32Length,
     MixedCaseBech32String,
@@ -13,27 +13,33 @@ use Flesh404\Kaspa\Laravel\Address\Exceptions\Bech32\{
 };
 use Orchestra\Testbench\TestCase;
 
+/**
+ * Exception tests for the Kaspa Bech32 decoder.
+ *
+ * Ensures that all structural, encoding, and checksum
+ * validation errors throw the correct Bech32 exceptions.
+ */
 final class KaspaBech32ExceptionsTest extends TestCase
 {
     public function test_it_throws_invalid_length_exception(): void
     {
         $this->expectException(InvalidBech32Length::class);
 
-        KaspaBech32::decode('x');
+        KaspaBech32Decoder::decode('x');
     }
 
     public function test_it_throws_mixed_case_exception(): void
     {
         $this->expectException(MixedCaseBech32String::class);
 
-        KaspaBech32::decode('Kaspa:qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkx9awp4e');
+        KaspaBech32Decoder::decode('Kaspa:qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkx9awp4e');
     }
 
     public function test_it_throws_missing_separator_exception(): void
     {
         $this->expectException(MissingBech32Separator::class);
 
-        KaspaBech32::decode('kaspaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkx9awp4e');
+        KaspaBech32Decoder::decode('kaspaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkx9awp4e');
     }
 
     public function test_it_throws_invalid_separator_position_exception(): void
@@ -41,14 +47,14 @@ final class KaspaBech32ExceptionsTest extends TestCase
         $this->expectException(InvalidBech32SeparatorPosition::class);
 
         // separator too close to end
-        KaspaBech32::decode('kaspa:qqqq');
+        KaspaBech32Decoder::decode('kaspa:qqqq');
     }
 
     public function test_it_throws_invalid_character_exception(): void
     {
         $this->expectException(InvalidBech32Character::class);
 
-        KaspaBech32::decode('kaspa:qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkx9awp4!');
+        KaspaBech32Decoder::decode('kaspa:qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkx9awp4!');
     }
 
     public function test_it_throws_invalid_checksum_exception(): void
@@ -56,7 +62,7 @@ final class KaspaBech32ExceptionsTest extends TestCase
         $this->expectException(InvalidBech32Checksum::class);
 
         // valid structure, but checksum intentionally corrupted
-        KaspaBech32::decode(
+        KaspaBech32Decoder::decode(
             'kaspa:qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkx9awp4x'
         );
     }

@@ -3,7 +3,7 @@
 namespace Flesh404\Kaspa\Laravel\Address\Console\Commands;
 
 use Illuminate\Console\Command;
-use Flesh404\Kaspa\Laravel\Address\Analyzer\AddressAnalyzer;
+use Flesh404\Kaspa\Laravel\Address\Support\KaspaAddressAnalyzer;
 
 /**
  * Artisan command for validating and inspecting Kaspa addresses.
@@ -37,7 +37,7 @@ final class CheckKaspaAddressCommand extends Command
     {
         $input = $this->argument('address');
 
-        $result = AddressAnalyzer::analyze($input);
+        $result = KaspaAddressAnalyzer::analyze($input);
 
         if (! $result['valid']) {
             $this->error('✘ Address is invalid');
