@@ -1,6 +1,6 @@
 # laravel-kaspa-address
 
-Laravel package for validating and analyzing Kaspa addresses.
+Laravel package for validating, analyzing and generating Kaspa addresses.
 
 **Disclaimer:**  
 This project is not officially affiliated with, endorsed by, or connected to Kaspa or the Kaspa Foundation.
@@ -10,7 +10,8 @@ This project is not officially affiliated with, endorsed by, or connected to Kas
 - Validate Kaspa addresses (mainnet / testnet / devnet / simnet)
 - Extract prefix and network information
 - Kaspa-specific Bech32 checksum verification
-- Artisan command for CLI validation
+- Generate valid Kaspa addresses (testing & tooling)
+- Artisan commands for validation and generation
 - Based on the **official Kaspa Go / Rust reference implementations**
 - Zero dependencies
 
@@ -100,10 +101,10 @@ KaspaAddressGenerator::generate(KaspaPrefix::Simnet);
 The generator is intended for testing, fixtures, and tooling.
 It does not derive keys or represent real wallet ownership.
 
-### Artisan Command
-The package ships with a CLI command for validating Kaspa addresses.
+### Artisan Commands
+The package ships with a CLI command for validating & generating Kaspa addresses.
 
-**Usage:**
+#### Validate an Address
 ```bash
 php artisan kaspa:address kaspa:qp...
 ```
@@ -126,6 +127,29 @@ Exit codes:
 - 0 → valid
 - 1 → invalid
 
+#### Generate an address
+Generate a random valid Kaspa address for a given network:
+```bash
+php artisan kaspa:address:generate
+```
+Defaults to mainnet (kaspa).
+
+Generate for a specific network:
+```bash
+php artisan kaspa:address:generate kaspatest
+php artisan kaspa:address:generate kaspadev
+php artisan kaspa:address:generate kaspasim
+```
+
+Output:
+```bash
+kaspa:qp...
+```
+
+Exit codes:
+- 0 → valid
+- 1 → invalid
+
 ## Supported Networks & Prefixes
 | Network | Prefix      |
 | ------- | ----------- |
@@ -140,8 +164,9 @@ Exit codes:
 ```
 
 Includes:
-- Bech32 decoding tests 
+- Bech32 encoding & decoding tests 
 - Address parsing tests 
+- Generator tests
 - Analyzer tests 
 - Artisan command tests
 

@@ -2,7 +2,10 @@
 
 namespace Flesh404\Kaspa\Laravel\Address\Providers;
 
-use Flesh404\Kaspa\Laravel\Address\Console\Commands\CheckKaspaAddressCommand;
+use Flesh404\Kaspa\Laravel\Address\Console\Commands\{
+    CheckKaspaAddressCommand,
+    GenerateKaspaAddressCommand
+};
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -34,6 +37,7 @@ final class KaspaAddressServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 CheckKaspaAddressCommand::class,
+                GenerateKaspaAddressCommand::class,
             ]);
         }
     }
