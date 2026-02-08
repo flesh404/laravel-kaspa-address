@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Bech32;
+namespace Flesh404\Kaspa\Laravel\Address\Tests\Unit\Bech32;
 
 use Flesh404\Kaspa\Laravel\Address\Enums\KaspaPrefix;
 use Flesh404\Kaspa\Laravel\Address\Bech32\{
@@ -8,13 +8,15 @@ use Flesh404\Kaspa\Laravel\Address\Bech32\{
     KaspaBech32Encoder,
     Internals\ConvertBits
 };
-use Orchestra\Testbench\TestCase;
+use Flesh404\Kaspa\Laravel\Address\Tests\TestCase;
 
 /**
  * Tests for the KaspaBech32 encoder.
  *
  * Verifies correct Bech32 encoding, round-trip decoding,
  * and proper prefix handling.
+ *
+ * @package Flesh404\Kaspa\Laravel\Address\Tests\Unit\Bech32
  */
 final class KaspaBech32EncoderTest extends TestCase
 {

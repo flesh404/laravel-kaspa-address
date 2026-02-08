@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Bech32;
+namespace Flesh404\Kaspa\Laravel\Address\Tests\Unit\Bech32;
 
 use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32Decoder;
 use Flesh404\Kaspa\Laravel\Address\Exceptions\Bech32\{
@@ -11,13 +11,15 @@ use Flesh404\Kaspa\Laravel\Address\Exceptions\Bech32\{
     InvalidBech32Checksum,
     InvalidBech32Character
 };
-use Orchestra\Testbench\TestCase;
+use Flesh404\Kaspa\Laravel\Address\Tests\TestCase;
 
 /**
  * Exception tests for the Kaspa Bech32 decoder.
  *
  * Ensures that all structural, encoding, and checksum
  * validation errors throw the correct Bech32 exceptions.
+ *
+ * @package Flesh404\Kaspa\Laravel\Address\Tests\Unit\Bech32
  */
 final class KaspaBech32ExceptionsTest extends TestCase
 {

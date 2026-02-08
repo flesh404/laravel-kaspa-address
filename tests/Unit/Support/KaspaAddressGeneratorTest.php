@@ -1,17 +1,21 @@
 <?php
 
+namespace Flesh404\Kaspa\Laravel\Address\Tests\Unit\Support;
+
 use Flesh404\Kaspa\Laravel\Address\KaspaAddress;
 use Flesh404\Kaspa\Laravel\Address\{
     Enums\KaspaPrefix,
     Support\KaspaAddressGenerator
 };
-use Orchestra\Testbench\TestCase;
+use Flesh404\Kaspa\Laravel\Address\Tests\TestCase;
 
 /**
  * Tests for the KaspaAddressGenerator.
  *
  * Ensures that generated addresses are valid, unique,
  * and use the correct Kaspa prefix.
+ *
+ * @package Flesh404\Kaspa\Laravel\Address\Tests\Unit\Support
  */
 final class KaspaAddressGeneratorTest extends TestCase
 {

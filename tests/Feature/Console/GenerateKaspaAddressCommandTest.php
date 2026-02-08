@@ -1,30 +1,18 @@
 <?php
 
+namespace Flesh404\Kaspa\Laravel\Address\Tests\Feature\Console;
+
 use Illuminate\Support\Facades\Artisan;
-use Flesh404\Kaspa\Laravel\Address\{
-    KaspaAddress,
-    Providers\KaspaAddressServiceProvider
-};
-use Orchestra\Testbench\TestCase;
+use Flesh404\Kaspa\Laravel\Address\KaspaAddress;
+use Flesh404\Kaspa\Laravel\Address\Tests\TestCase;
 
 /**
  * Tests for the kaspa:address:generate Artisan command.
+ *
+ * @package Flesh404\Kaspa\Laravel\Address\Tests\Feature\Console
  */
 final class GenerateKaspaAddressCommandTest extends TestCase
 {
-    /**
-     * Register the package service provider for the test environment.
-     *
-     * @param $app
-     * @return array
-     */
-    protected function getPackageProviders($app): array
-    {
-        return [
-            KaspaAddressServiceProvider::class,
-        ];
-    }
-
     public function test_it_generates_a_valid_mainnet_address(): void
     {
         $exitCode = Artisan::call('kaspa:address:generate');

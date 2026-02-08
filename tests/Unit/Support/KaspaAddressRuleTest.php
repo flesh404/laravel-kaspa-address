@@ -1,16 +1,20 @@
 <?php
 
+namespace Flesh404\Kaspa\Laravel\Address\Tests\Unit\Support;
+
 use Illuminate\Support\Facades\Validator;
-use Orchestra\Testbench\TestCase;
 use Flesh404\Kaspa\Laravel\Address\Support\{
     KaspaAddressGenerator,
     Rules\KaspaAddressRule
 };
 use Flesh404\Kaspa\Laravel\Address\Enums\KaspaPrefix;
 use Flesh404\Kaspa\Laravel\Address\Providers\KaspaAddressServiceProvider;
+use Flesh404\Kaspa\Laravel\Address\Tests\TestCase;
 
 /**
  * Unit tests for the KaspaAddressRule.
+ *
+ * @package Flesh404\Kaspa\Laravel\Address\Tests\Unit\Support
  */
 final class KaspaAddressRuleTest extends TestCase
 {

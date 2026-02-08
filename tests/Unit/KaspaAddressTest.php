@@ -1,15 +1,19 @@
 <?php
 
+namespace Flesh404\Kaspa\Laravel\Address\Tests\Unit;
+
 use Flesh404\Kaspa\Laravel\Address\KaspaAddress;
 use Flesh404\Kaspa\Laravel\Address\Enums\{
     KaspaNetwork,
     KaspaPrefix
 };
 use Flesh404\Kaspa\Laravel\Address\Exceptions\Address\UnknownKaspaAddressPrefix;
-use Orchestra\Testbench\TestCase;
+use Flesh404\Kaspa\Laravel\Address\Tests\TestCase;
 
 /**
  * Unit tests for the KaspaAddress value object.
+ *
+ * @package Flesh404\Kaspa\Laravel\Address\Tests\Unit
  */
 final class KaspaAddressTest extends TestCase
 {

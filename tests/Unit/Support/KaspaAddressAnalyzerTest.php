@@ -1,12 +1,16 @@
 <?php
 
+namespace Flesh404\Kaspa\Laravel\Address\Tests\Unit\Support;
+
 use Flesh404\Kaspa\Laravel\Address\Support\KaspaAddressAnalyzer;
-use Orchestra\Testbench\TestCase;
+use Flesh404\Kaspa\Laravel\Address\Tests\TestCase;
 
 /**
  * Unit tests for the KaspaAddressAnalyzer helper.
+ *
+ * @package Flesh404\Kaspa\Laravel\Address\Tests\Unit\Support
  */
-final class AddressAnalyzerTest extends TestCase
+final class KaspaAddressAnalyzerTest extends TestCase
 {
     public function test_analyze_valid_address(): void
     {

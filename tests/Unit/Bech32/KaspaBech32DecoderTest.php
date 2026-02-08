@@ -1,13 +1,17 @@
 <?php
 
+namespace Flesh404\Kaspa\Laravel\Address\Tests\Unit\Bech32;
+
 use Flesh404\Kaspa\Laravel\Address\Bech32\KaspaBech32Decoder;
-use Orchestra\Testbench\TestCase;
+use Flesh404\Kaspa\Laravel\Address\Tests\TestCase;
 
 /**
  * Unit tests for the KaspaBech32 decoder.
  *
  * Verifies correct decoding of valid Bech32 addresses
  * and proper exception handling for invalid inputs.
+ *
+ * @package Flesh404\Kaspa\Laravel\Address\Tests\Unit\Bech32
  */
 final class KaspaBech32DecoderTest extends TestCase
 {
