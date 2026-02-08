@@ -150,6 +150,44 @@ Exit codes:
 - 0 → valid
 - 1 → invalid
 
+### Laravel Validation Rule
+The package provides a Laravel validation rule for Kaspa addresses.
+
+It validates that a value is:
+- a valid Kaspa address
+- optionally restricted to specific Kaspa networks
+
+**Basic usage (allow all networks):**
+```php
+use Flesh404\Kaspa\Laravel\Address\Support\Rules\KaspaAddressRule;
+
+$request->validate([
+    'address' => ['required', new KaspaAddressRule()],
+]);
+```
+**Restrict to a specific network:**
+```php
+use Flesh404\Kaspa\Laravel\Address\Support\Rules\KaspaAddressRule;
+use Flesh404\Kaspa\Laravel\Address\Enums\KaspaPrefix;
+
+$request->validate([
+    'address' => ['required', new KaspaAddressRule(KaspaPrefix::Mainnet)],
+]);
+```
+**Allow multiple networks:**
+```php
+$request->validate([
+    'address' => [
+        'required',
+        new KaspaAddressRule([
+            KaspaPrefix::Mainnet,
+            KaspaPrefix::Testnet,
+        ]),
+    ],
+]);
+```
+Validation error messages are currently hardcoded and do not require Laravel translation files.
+
 ## Supported Networks & Prefixes
 | Network | Prefix      |
 | ------- | ----------- |
